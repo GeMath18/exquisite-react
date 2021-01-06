@@ -7,7 +7,8 @@ import RecentSubmission from './RecentSubmission';
 const Game = () => {
 
   const [player, setPlayer] = useState(1);
-  const [submissions, setSubmissions] = useState([])
+  const [submissions, setSubmissions] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
  
 
 
@@ -30,6 +31,10 @@ const Game = () => {
     setPlayer(player + 1)
   }
 
+  const revealPoem = () => {
+    setIsSubmitted(true);
+  }
+
   return (
     <div className="Game">
       <h2>Game</h2>
@@ -46,7 +51,7 @@ const Game = () => {
 
       <PlayerSubmissionForm index={player} fields={FIELDS} sendSubmission={addLineSubmission}/>
 
-      <FinalPoem />
+      <FinalPoem isSubmitted={ isSubmitted } submissions={submissions} revealPoem={revealPoem}/>
 
     </div>
   );
