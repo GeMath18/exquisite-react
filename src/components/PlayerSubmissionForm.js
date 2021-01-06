@@ -26,6 +26,16 @@ const PlayerSubmissionForm = (props) => {
   const onFormSubmit = (event) => {
     event.preventDefault();
 
+    const poem = props.fields.map(field => {
+      if (field.key) {
+        return formFields[field.key];
+      } else {
+        return field;
+      }
+    }).join(' ');
+
+    props.sendSubmission(onFormSubmit)
+
     setFormFields({
       adj1: '',
       noun1: '',
@@ -62,14 +72,14 @@ const PlayerSubmissionForm = (props) => {
 
           <input
             name="adverb"
-            placeholder="adverb"
+            placeholder="adverb1"
             type="text"
             value={formFields.adverb}
             onChange={onInputChange} />
 
           <input
             name="verb"
-            placeholder="verb"
+            placeholder="verb1"
             type="text"
             value={formFields.verb}
             onChange={onInputChange} />
