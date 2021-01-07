@@ -27,14 +27,15 @@ const PlayerSubmissionForm = (props) => {
     event.preventDefault();
 
     const poem = props.fields.map(field => {
+      const submittedFields = {...formFields};
       if (field.key) {
-        return formFields[field.key];
+        return submittedFields[field.key];
       } else {
-        return field;
+        return field
       }
     }).join(' ');
 
-    props.sendSubmission(onFormSubmit)
+    props.sendSubmission(poem);
 
     setFormFields({
       adj1: '',
@@ -55,50 +56,27 @@ const PlayerSubmissionForm = (props) => {
       <form className="PlayerSubmissionForm__form" onSubmit={onFormSubmit}>
 
         <div className="PlayerSubmissionForm__poem-inputs">
-          The
-          <input
-            name="adj1"
-            placeholder="adjective1"
-            type="text"
-            value={formFields.adj1}
-            onChange={onInputChange} />
-
-          <input
-            name="noun1"
-            placeholder="noun1"
-            type="text"
-            value={formFields.noun1}
-            onChange={onInputChange} />
-
-          <input
-            name="adverb"
-            placeholder="adverb1"
-            type="text"
-            value={formFields.adverb}
-            onChange={onInputChange} />
-
-          <input
-            name="verb"
-            placeholder="verb1"
-            type="text"
-            value={formFields.verb}
-            onChange={onInputChange} />
-
-          <input 
-            placeholder="adjective2"
-            name="adj2"
-            type="text"
-            value={formFields.adj2}
-            onChange={onInputChange} />
-
-          <input 
-            placeholder="noun2"
-            name="noun2"
-            type="text"
-            value={formFields.noun2}
-            onChange={onInputChange} />
+          {
+            props.fields.map((field, i) => {
+              if (field.key) {
+                return(
+                <input 
+                key={field.key}
+                name={field.key}
+                placeholder={field.placeholder}
+                onChange={onInputChange}
+                value={formFields[field.key] || ''}
+                type='text'
+                className={!formFields[field.key] ? '' : 'PlayerSubmissionFormt_input--invalid'}
+                />)
+              } else {
+                return field;
+              }
+            })
+          }
 
         </div>
+        
 
         <div className="PlayerSubmissionForm__submit">
           <input type="submit" value="Submit Line" className="PlayerSubmissionForm__submit-btn" />
